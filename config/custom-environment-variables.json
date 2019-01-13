@@ -1,3 +1,4 @@
 {
-    "jwtPrivateKey": "dept_jwtPrivateKey"
+    "jwtPrivateKey": "dept_jwtPrivateKey",
+    "db":"department_db"
   }
