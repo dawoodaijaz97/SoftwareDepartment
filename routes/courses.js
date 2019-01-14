@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const auth=require('../middleware/auth');
 const admin=require('../middleware/admin');
+const faculty=require('../middleware/faculty');
 
 router.get('/',auth, async (req, res) => {
   const courses = await Course.find().sort('name');
@@ -13,7 +14,7 @@ router.get('/',auth, async (req, res) => {
 router.post('/',[auth,admin] ,async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
-
+    
   let course = new Course({ 
     name: req.body.name,
     semester: req.body.semester,

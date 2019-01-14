@@ -61,7 +61,7 @@ router.put('/:id',[auth,admin], async (req, res) => {
   res.send(faculty);
 });
 
-router.delete('/:id',[],[auth,admin], async (req, res) => {
+router.delete('/:id',[auth,admin], async (req, res) => {
   const faculty = await Faculty.findByIdAndRemove(req.params.id);
 
   if (!faculty) return res.status(404).send('The faculty with the given ID was not found.');

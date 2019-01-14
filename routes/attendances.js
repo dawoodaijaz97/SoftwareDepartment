@@ -6,12 +6,14 @@ const router = express.Router();
 const auth=require('../middleware/auth');
 const admin=require('../middleware/admin');
 const {Student}=require('../models/student');
+const faculty=require('../middleware/faculty');
+
 router.get('/', async (req, res) => {
   const attendances = await Attendance.find().sort('name');
   res.send(attendances);
 });
 
-router.post('/', [auth,admin],async (req, res) => {
+router.post('/', [auth],async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -41,7 +43,7 @@ router.post('/', [auth,admin],async (req, res) => {
   res.send(attendance);
 });
 
-router.put('/:id',[auth,admin], async (req, res) => {
+router.put('/:id',[auth], async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -73,7 +75,7 @@ router.put('/:id',[auth,admin], async (req, res) => {
   res.send(attendance);
 });
 
-router.delete('/:id',[auth,admin], async (req, res) => {
+router.delete('/:id',[auth], async (req, res) => {
   const attendance = await Attendance.findByIdAndRemove(req.params.id);
 
   if (!attendance) return res.status(404).send('The attendance with the given ID was not found.');

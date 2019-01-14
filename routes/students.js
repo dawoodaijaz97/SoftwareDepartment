@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const auth=require('../middleware/auth');
 const admin=require('../middleware/admin');
+const faculty=require('../middleware/faculty');
 
 router.get('/',auth, async (req, res) => {
   const students = await Student.find().sort('name');
@@ -48,7 +49,9 @@ router.put('/:id',[auth,admin] ,async (req, res) => {
   
    if (!student) return res.status(404).send('The student with the given ID was not found.');
   
-  
+  student.CGPA= req.body.CGPA? req.body.CGPA:student.CGPA;
+  student.name=req.body.name?req.body.name:student.name;
+  student.currentSemester=req.body.currentSemester?req.body.currentSemester:student.currentSemester;
 
   let coursi={
       _id:course._id,
@@ -69,7 +72,7 @@ router.delete('/:id',[auth,admin], async (req, res) => {
   res.send(student);
 });
 
-router.get('/:id',[auth,admin] ,async (req, res) => {
+router.get('/:id',[auth,faculty] ,async (req, res) => {
   const student = await Student.findById(req.params.id);
 
   if (!student) return res.status(404).send('The student with the given ID was not found.');
